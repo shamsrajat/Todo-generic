@@ -33,5 +33,3 @@ module "nsg_subnet_association" {
   nsg_subnet_association = var.nsg_subnet_association
   depends_on = [ module.subnet, module.nsg ]
 }
-
--
