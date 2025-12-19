@@ -6,35 +6,24 @@ variable "resource_groups" {
   }))
 }
 
-variable "storage_accounts" {
-  description = "Map of storage accounts to be created"
-  type = map(object({
-    storage_account_name     = string
-    resource_group_name      = string
-    storage_account_location = string
-    account_tier             = string
-    account_replication_type = string
-  }))
-}
-
 variable "nsg" {
   description = "map of nsg details"
   type = map(object({
-    nsg_name = string
+    nsg_name     = string
     nsg_location = string
-    nsg_rg_name = string
+    nsg_rg_name  = string
   }))
 }
 
 variable "nsg_rules" {
   description = "List of security rules for NSG"
   type = list(object({
-    name                       = string
-    priority                   = number
-    direction                  = string
-    access                     = string
-    protocol                   = string
-    destination_port_range     = string
+    name                   = string
+    priority               = number
+    direction              = string
+    access                 = string
+    protocol               = string
+    destination_port_range = string
   }))
 }
 
@@ -61,33 +50,36 @@ variable "subnets" {
 
 variable "nsg_subnet_association" {
   description = "Map of NSG ID (key) to Subnet ID (value)"
-  type = map(string)
+  type        = map(string)
 }
 
-# variable "nic" {
-#   description = "map of NIC"
-#   type = map(object({
-#     nic_name     = string
-#     nic_location = string
-#     nic_rg_name  = string
-#   }))
-# }
+variable "linux_vms" {
+  type = map(object({
+    vm_name             = string
+    resource_group_name = string
+    location            = string
+    size                = string
+    admin_username      = string
+    admin_password      = string
 
-# variable "linux_vm" {
-#   description = "map of linux vms"
-#   type = map(object({
-#     vm_name               = string
-#     resource_group_name   = string
-#     location              = string
-#     size                  = string
-#     admin_username        = string
-#     admin_password        = string
-#     network_interface_ids = list(string)
-#     caching               = string
-#     storage_account_type  = string
-#     publisher             = string
-#     offer                 = string
-#     sku                   = string
-#     version               = string
-#   }))
-# }
+    subnet_key = string  
+    private_ip = string
+    public_ip_id = optional(string)
+
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
+  }))
+}
+
+
+variable "public_ip" {
+  description = "this is a map of public IP variable"
+  type = map(object({
+    pip_name              = string
+    pip_rgname            = string
+    pip_location          = string
+    pip_allocation_method = string
+  }))
+}
