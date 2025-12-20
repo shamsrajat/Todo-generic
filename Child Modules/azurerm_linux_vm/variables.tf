@@ -1,27 +1,19 @@
-variable "nic" {
-  description = "map of NIC"
+variable "linux_vms" {
   type = map(object({
-    nic_name     = string
-    nic_location = string
-    nic_rg_name  = string
-  }))
-}
+    vm_name             = string
+    resource_group_name = string
+    location            = string
+    size                = string
+    admin_username      = string
+    admin_password      = string
 
-variable "linux_vm" {
-  description = "map of linux vms"
-  type = map(object({
-    vm_name               = string
-    resource_group_name   = string
-    location              = string
-    size                  = string
-    admin_username        = string
-    admin_password        = string
-    network_interface_ids = list(string)
-    caching               = string
-    storage_account_type  = string
-    publisher             = string
-    offer                 = string
-    sku                   = string
-    version               = string
+    subnet_id  = string
+    private_ip = string
+    public_ip_id = string
+
+    publisher = string
+    offer     = string
+    sku       = string
+    version   = string
   }))
 }

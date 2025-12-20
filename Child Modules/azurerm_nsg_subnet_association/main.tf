@@ -1,7 +1,6 @@
 resource "azurerm_subnet_network_security_group_association" "assoc" {
-  
-  for_each = var.nsg_subnet_association
+  for_each = var.subnet_ids
 
-  network_security_group_id = each.key
   subnet_id                 = each.value
+  network_security_group_id = var.nsg_id
 }

@@ -1,4 +1,9 @@
-variable "nsg_subnet_association" {
-  description = "Map of NSG ID (key) to Subnet ID (value)"
-  type = map(string)
+variable "subnet_ids" {
+  description = "Map of subnet IDs"
+  type        = map(string)
+}
+
+variable "nsg_id" {
+  description = "NSG ID"
+  type        = string
 }

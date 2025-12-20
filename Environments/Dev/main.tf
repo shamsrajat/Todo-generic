@@ -41,3 +41,8 @@ module "linux_vm" {
   depends_on = [ module.subnet, module.public_ip ]
 }
 
+module "sql_server_db" {
+  source = "../../Child Modules/azurerm_sql_server"
+  sqlserver = var.sqlserver
+  sqldb = var.sqldb
+}

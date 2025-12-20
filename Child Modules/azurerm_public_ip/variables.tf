@@ -6,6 +6,4 @@ variable "public_ip" {
     pip_location          = string
     pip_allocation_method = string
   }))
-
-
 }
