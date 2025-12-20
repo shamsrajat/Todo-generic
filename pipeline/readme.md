@@ -1,5 +1,8 @@
 # Azure DevOps Terraform CI/CD Pipeline
 
+## Workflow
+Git → Pipeline Trigger → Init & Validate → Security Scan → Plan → Approval → Apply → Azure Infra
+
 ## Overview
 This project demonstrates an end-to-end CI/CD pipeline built using **Azure DevOps** for deploying Azure infrastructure with **Terraform**.  
 The pipeline follows Infrastructure as Code (IaC) and DevOps best practices to ensure automation, security, and controlled deployments.
