@@ -1,0 +1,125 @@
+trigger:
+- main
+- feature/*
+
+pool:
+  name: terraform-agent-pool
+
+stages:
+
+# -------------------- INIT & VALIDATION --------------------
+- stage: Init_And_Validate
+  displayName: Terraform Initialization and Validation
+  jobs:
+  - job: InitValidateJob
+    displayName: Initialize Terraform and Validate Configuration
+    steps:
+
+    - task: TerraformTask@5
+      displayName: Terraform Init
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/main'
+        backendServiceArm: 'ado-service-connection'
+        backendAzureRmResourceGroupName: 'pipeline-rg'
+        backendAzureRmStorageAccountName: 'tfbackendstorage0488'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Validate
+      inputs:
+        provider: 'azurerm'
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/main'
+
+# -------------------- SECURITY & QUALITY --------------------
+- stage: Security_And_Quality
+  displayName: Security and Code Quality Checks
+  jobs:
+  - job: SecurityScan
+    displayName: Running tfsec and tflint
+    steps:
+
+    - task: tfsec@1
+      displayName: Terraform Security Scan
+      inputs:
+        version: 'v1.26.0'
+        dir: '$(System.DefaultWorkingDirectory)/main'
+
+    - task: CmdLine@2
+      displayName: Terraform Linting
+      inputs:
+        script: |
+          cd main
+          tflint --recursive
+
+# -------------------- PLAN --------------------
+- stage: Terraform_Plan
+  displayName: Terraform Planning Stage
+  jobs:
+  - job: PlanJob
+    displayName: Generate Terraform Plan
+    steps:
+
+    - task: TerraformTask@5
+      displayName: Terraform Init for Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/main'
+        backendServiceArm: 'ado-service-connection'
+        backendAzureRmResourceGroupName: 'pipeline-rg'
+        backendAzureRmStorageAccountName: 'tfbackendstorage0488'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Plan
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/main'
+        environmentServiceNameAzureRM: 'ado-service-connection'
+
+# -------------------- MANUAL APPROVAL --------------------
+- stage: Manual_Approval
+  displayName: Approval Before Deployment
+  pool: server
+  jobs:
+  - job: ApprovalJob
+    displayName: Manual Approval
+    steps:
+    - task: ManualValidation@1
+      inputs:
+        instructions: 'Review Terraform plan output and approve to proceed.'
+
+# -------------------- APPLY --------------------
+- stage: Terraform_Apply
+  displayName: Infrastructure Deployment
+  jobs:
+  - job: ApplyJob
+    displayName: Apply Terraform Configuration
+    steps:
+
+    - task: TerraformTask@5
+      displayName: Terraform Init (Apply Stage)
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/main'
+        backendServiceArm: 'ado-service-connection'
+        backendAzureRmResourceGroupName: 'pipeline-rg'
+        backendAzureRmStorageAccountName: 'tfbackendstorage0488'
+        backendAzureRmContainerName: 'tfstate'
+        backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTask@5
+      displayName: Terraform Apply
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/main'
+        commandOptions: '--auto-approve'
+        environmentServiceNameAzureRM: 'ado-service-connection'
