@@ -2,39 +2,11 @@ trigger:
 - none
 
 pool: Azure Pipelines
+    
+jobs:
+ - job: initializeTerraform
+   steps:
+   - script: terraform init
 
-stages:
-  - stage: terraformInitFmtValidate
-    displayName: Terraform InitFmtValidate
-    jobs:
-      - job: initializeTerraform
-        steps:
-        - task: TerraformTask@5
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            backendServiceArm: 'azuredevopssc'
-            backendAzureRmStorageAccountName: 'pipeline482555'
-            backendAzureRmContainerName: 'pipelinecont'
-            backendAzureRmKey: 'terraform.tfstate'
-
-      - job: formatConfiguration
-        steps:
-          - script: terraform fmt
-
-      - job: validateConfiguration
-        steps:
-          - script: terraform validate
-
-  - stage: terraformPlan
-    displayName: Plan Terraform configuration
-    dependsOn: terraformInitFmtValidate
-    jobs:
-      - job: terraformPlan
-        steps:
-          - task: TerraformTask@5
-            inputs:
-              provider: 'azurerm'
-              command: 'plan'
-              environmentServiceNameAzureRM: 'azuredevopssc'
+    
 
