@@ -25,6 +25,9 @@ stages:
     jobs:
       - job: terraformPlan
         steps:
-          - script: terraform plan
-          - task: 
+          - task: TerraformTask@5
+            inputs:
+              provider: 'azurerm'
+              command: 'plan'
+              environmentServiceNameAzureRM: 'azuredevopssc'
 
