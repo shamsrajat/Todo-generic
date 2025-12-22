@@ -4,9 +4,27 @@ trigger:
 pool: Azure Pipelines
 
 stages:
-  - stage: Validate
-    displayName: Terraform Validation
+  - stage: terraformInitFmtValidate
+    displayName: Terraform InitFmtValidate
     jobs:
-      - job: ValidateJob
+      - job: initializeTerraform
         steps:
-        - task: 
+        - script: terraform init
+
+      - job: formatConfiguration
+        steps:
+          - script: terraform fmt
+
+      - job: validateConfiguration
+        steps:
+          - script: terraform validate
+
+  - stage: terraformPlan
+    displayName: Plan Terraform configuration
+    dependsOn: terraformInitFmtValidate
+    jobs:
+      - job: terraformPlan
+        steps:
+          - script: terraform plan
+          - task: 
+
