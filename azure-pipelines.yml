@@ -1,0 +1,12 @@
+trigger:
+- main
+
+pool: Azure Pipelines
+
+stages:
+  - stage: Validate
+    displayName: Terraform Validation
+    jobs:
+      - job: ValidateJob
+        steps:
+        - task: 
