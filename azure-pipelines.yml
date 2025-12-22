@@ -1,7 +1,7 @@
 trigger:
 - none
 
-pool: Azure Pipelines
+pool: MyPool
     
 jobs:
  - job: initializeTerraform
