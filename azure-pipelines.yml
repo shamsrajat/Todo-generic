@@ -9,7 +9,14 @@ stages:
     jobs:
       - job: initializeTerraform
         steps:
-        - script: terraform init
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            backendServiceArm: 'azuredevopssc'
+            backendAzureRmStorageAccountName: 'pipeline482555'
+            backendAzureRmContainerName: 'pipelinecont'
+            backendAzureRmKey: 'terraform.tfstate'
 
       - job: formatConfiguration
         steps:
