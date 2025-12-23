@@ -14,5 +14,10 @@ jobs:
        -backend-config="key=dev.tfstate"
      workingDirectory:  $(System.DefaultWorkingDirectory)/Environments/Dev
 
+   - powershell: |
+       terraform plan -out=tfplan
+       displayName: Terraform Plan
+     workingDirectory: $(System.DefaultWorkingDirectory)/Environments/Dev
+
     
 
