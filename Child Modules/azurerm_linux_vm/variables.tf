@@ -7,8 +7,8 @@ variable "linux_vms" {
     admin_username      = string
     admin_password      = string
 
-    subnet_id  = string
-    private_ip = string
+    subnet_id    = string
+    private_ip   = string
     public_ip_id = string
 
     publisher = string

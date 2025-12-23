@@ -1,5 +1,5 @@
 resource "azurerm_network_security_group" "nsg_child_module" {
-  for_each = var.nsg
+  for_each            = var.nsg
   name                = each.value.nsg_name
   location            = each.value.nsg_location
   resource_group_name = each.value.nsg_rg_name

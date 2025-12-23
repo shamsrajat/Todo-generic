@@ -62,8 +62,8 @@ variable "linux_vms" {
     admin_username      = string
     admin_password      = string
 
-    subnet_key = string  
-    private_ip = string
+    subnet_key   = string
+    private_ip   = string
     public_ip_id = optional(string)
 
     publisher = string
