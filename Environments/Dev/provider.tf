@@ -6,12 +6,18 @@ terraform {
     }
   }
 
-  backend "azurerm" {}
+  backend "azurerm" {
+    resource_group_name  = "rajat-practice-RG"
+    storage_account_name = "rajatpracticestorage0"
+    container_name       = "statefiles"
+    key                  = "dev.tfstate"
+    use_azuread_auth     = true
+  }
 }
 
 provider "azurerm" {
   features {}
-  subscription_id = "add0fa15-bc55-4925-94ff-33e12b9104b0"
+  subscription_id = "c1c0072a-4263-4e7d-b569-5f129c384ed5"
 }
 
 data "azurerm_client_config" "current" {}
