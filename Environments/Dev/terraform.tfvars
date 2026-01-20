@@ -125,7 +125,7 @@ public_ip = {
 
 sqlserver = {
   dev = {
-    sqlserver_name     = "dev-sql"
+    sqlserver_name     = "todo-gen-dev-sql"
     sql_rg_name        = "rg-todo-gen-dev-01"
     sqlserver_location = "japaneast"
     sqlserver_version  = "12.0"
