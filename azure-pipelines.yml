@@ -16,7 +16,7 @@ jobs:
 
    - powershell: |
        terraform plan -out=tfplan
-       displayName: Terraform Plan
+     displayName: Terraform Plan
      workingDirectory: $(System.DefaultWorkingDirectory)/Environments/Dev
 
     
