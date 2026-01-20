@@ -9,14 +9,19 @@ jobs:
    - powershell: |
        terraform init `
        -backend-config="resource_group_name=rajat-practice-RG" `
-       -backend-config="storage_account_name=rajatpracticestorage" `
+       -backend-config="storage_account_name=rajatpracticestorage0" `
        -backend-config="container_name=statefiles" `
        -backend-config="key=dev.tfstate"
      workingDirectory:  $(System.DefaultWorkingDirectory)/Environments/Dev
 
    - powershell: |
-       terraform plan -out=tfplan
-       displayName: Terraform Plan
+       terraform plan -out=tfplan2
+     displayName: Terraform Plan
+     workingDirectory: $(System.DefaultWorkingDirectory)/Environments/Dev
+
+   - powershell: |
+       terraform apply -auto-approve
+     displayName: Terraform Apply (auto-approved)
      workingDirectory: $(System.DefaultWorkingDirectory)/Environments/Dev
 
     
