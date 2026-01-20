@@ -129,7 +129,7 @@ sqlserver = {
     sql_rg_name        = "rg-todo-gen-dev-01"
     sqlserver_location = "japaneast"
     sqlserver_version  = "12.0"
-    sql_admin_userid   = "admin"
+    sql_admin_userid   = "rajat_sql_admin"
     sql_admin_password = "Password@123"
   }
 }
